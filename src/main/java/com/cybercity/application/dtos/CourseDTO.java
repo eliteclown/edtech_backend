@@ -17,7 +17,9 @@ public class CourseDTO {
     private Long courseId;
     private Long userId;
     private String courseName;
-    private String description;
+    private String sectionOne;
+    private String sectionTwo;
+    private String sectionThree;
     private BigDecimal price;
     private LocalDateTime createdAt;
     private String category;
