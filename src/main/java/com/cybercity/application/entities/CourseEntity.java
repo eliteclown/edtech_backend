@@ -28,6 +28,10 @@ public class CourseEntity {
     private String sectionOne;
     private String sectionTwo;
     private String sectionThree;
+    @ElementCollection
+    @CollectionTable(name = "course_photos",joinColumns = @JoinColumn(name = "course_id"))
+    @Column(name = "photos")
+    private List<String> photos;
     private BigDecimal price;
 
     @CreationTimestamp

@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class CourseDTO {
     private String sectionOne;
     private String sectionTwo;
     private String sectionThree;
+    private List<String> photos;
     private BigDecimal price;
     private LocalDateTime createdAt;
     private String category;
