@@ -30,7 +30,7 @@ public class CourseEntity {
     private String sectionThree;
     @ElementCollection
     @CollectionTable(name = "course_photos",joinColumns = @JoinColumn(name = "course_id"))
-    @Column(name = "photos")
+    @Column(name = "photo")
     private List<String> photos;
     private BigDecimal price;
 
