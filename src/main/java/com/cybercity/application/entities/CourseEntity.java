@@ -23,15 +23,22 @@ public class CourseEntity {
     @JoinColumn(name = "user_id",referencedColumnName = "userId")
     @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
-
+    private String instructorName;
     private String courseName;
-    private String sectionOne;
-    private String sectionTwo;
-    private String sectionThree;
     @ElementCollection
     @CollectionTable(name = "course_photos",joinColumns = @JoinColumn(name = "course_id"))
     @Column(name = "photo")
     private List<String> photos;
+    private String description;
+    @ElementCollection
+    @CollectionTable(name = "course_skills",joinColumns = @JoinColumn(name = "course_id"))
+    @Column(name = "skill")
+    private List<String> skills;
+    @ElementCollection
+    @CollectionTable(name = "course_curriculum",joinColumns = @JoinColumn(name = "course_id"))
+    @Column(name = "curriculum")
+    private List<String> curriculum;
+    private String trainingDetails;
     private BigDecimal price;
 
     @CreationTimestamp

@@ -32,6 +32,7 @@ public class AdminService {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
         CourseEntity courseEntity = modelMapper.map(inputDTO,CourseEntity.class);
         courseEntity.setUserEntity(userEntity);
+        courseEntity.setInstructorName(userEntity.getUserName());
         CourseEntity savedEntity = courseRepository.save(courseEntity);
         return modelMapper.map(savedEntity,CourseDTO.class);
     }
