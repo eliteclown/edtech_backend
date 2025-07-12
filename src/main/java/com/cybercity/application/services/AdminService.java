@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class AdminService {
     private final EnrollmentRepository enrollmentRepository;
     private final TeamsSessionRepository teamsSessionRepository;
     private final ModelMapper modelMapper;
+    private final BatchDispatcherService batchDispatcherService;
     private final MailService mailService;
 
     public CourseDTO createNewCourse(CourseDTO inputDTO,Long userId){
@@ -46,11 +48,18 @@ public class AdminService {
         TeamsSessionEntity savedEntity = teamsSessionRepository.save(teamsSessionEntity);
 
         List<EnrollmentEntity> enrollmentEntities = enrollmentRepository.findByCourseEntity(courseEntity);
+        List<UserEntity> users = enrollmentEntities.stream().map(EnrollmentEntity::getUserEntity).collect(Collectors.toList());
 
-        for(EnrollmentEntity enrollmentEntity : enrollmentEntities){
-            UserEntity userEntity = enrollmentEntity.getUserEntity();
-            mailService.sendTeamsMeetingInvite(userEntity.getEmail(),userEntity.getUserName(),"Live Session Notification",teamsSessionEntity.getTeamsId(), String.valueOf(teamsSessionEntity.getStartDate()),"11:00 AM",teamsSessionEntity.getJoinUrl());
-        }
+//        List<UserEntity>  userEntities = enrollmentRepository.findUsersByCourseEntity(courseEntity);
+        List<String> emails = users.stream().map(UserEntity::getEmail).collect(Collectors.toList());
+        List<String> names = users.stream().map(UserEntity::getUserName).toList();
+
+        batchDispatcherService.notifyUsers(emails,names,"Live Session Notification",teamsSessionEntity.getTeamsId(), String.valueOf(teamsSessionEntity.getStartDate()),"11:00 AM",teamsSessionEntity.getJoinUrl());
+
+//        for(EnrollmentEntity enrollmentEntity : enrollmentEntities){
+//            UserEntity userEntity = enrollmentEntity.getUserEntity();
+//            mailService.sendTeamsMeetingInvite(userEntity.getEmail(),userEntity.getUserName(),"Live Session Notification",teamsSessionEntity.getTeamsId(), String.valueOf(teamsSessionEntity.getStartDate()),"11:00 AM",teamsSessionEntity.getJoinUrl());
+//        }
 
 
 

@@ -13,4 +13,6 @@ public interface EnrollmentRepository extends JpaRepository<EnrollmentEntity,Lon
     List<EnrollmentEntity> findByUserEntity(UserEntity userEntity);
 
     List<EnrollmentEntity> findByCourseEntity(CourseEntity courseEntity);
+
+    List<UserEntity> findUsersByCourseEntity(CourseEntity courseEntity);
 }
