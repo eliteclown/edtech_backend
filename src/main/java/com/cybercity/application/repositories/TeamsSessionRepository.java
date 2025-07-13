@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TeamsSessionRepository extends JpaRepository<TeamsSessionEntity,Long> {
+//    TeamsSessionEntity findBySessionId(String body);
+
+    TeamsSessionEntity findByTeamsId(String body);
 }
