@@ -1,8 +1,10 @@
 package com.cybercity.application.services;
 
 import com.cybercity.application.entities.EmailLogEntity;
+import com.cybercity.application.repositories.EmailLogRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -51,13 +53,13 @@ import java.time.LocalDateTime;
 
 
 @Service
+@RequiredArgsConstructor
 public class MailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
 
-    @Autowired
-    private TemplateEngine templateEngine;
+    private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
+    private final EmailLogRepository emailLogRepository;
 
     @Async("emailExecutor")
     public void sendTeamsMeetingInvite(String to, String name, String title, String sessionId, String date, String time, String meetingLink) {
@@ -91,6 +93,8 @@ public class MailService {
 
             mailSender.send(mimeMessage);
             log.setStatus("SENT");
+            emailLogRepository.save(log);
+
 
         } catch (MessagingException e) {
             // 👇 Log or handle the error
